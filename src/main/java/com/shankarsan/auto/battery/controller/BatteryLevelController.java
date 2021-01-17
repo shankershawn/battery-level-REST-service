@@ -2,6 +2,7 @@ package com.shankarsan.auto.battery.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +12,7 @@ import com.shankarsan.auto.battery.dto.BatteryLevelResponseDTO;
 import com.shankarsan.auto.battery.exception.BusinessException;
 import com.shankarsan.auto.battery.service.BatteryLevelService;
 
+@CrossOrigin
 @RestController
 public class BatteryLevelController {
 	
