@@ -1,5 +1,8 @@
 package com.shankarsan.auto.battery.dao;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -21,9 +24,12 @@ public class BatteryLevelRepositoryImpl implements BatteryLevelRepository {
 
 	@Override
 	public FindIterable<Document> getBatteryLevel(String levelId, String passcode) {
+		Map<String, Integer> colMap = new HashMap<>();
+		colMap.put("level", 1);
+		colMap.put("status", 1);
 		return mongoOperations
 			.getCollection("batterylevel")
-			.find(Filters.and(Filters.eq("level_id", levelId), Filters.eq("passcode", passcode))).projection(new BasicDBObject("level", 1));
+			.find(Filters.and(Filters.eq("level_id", levelId), Filters.eq("passcode", passcode))).projection(new BasicDBObject(colMap));
 	}
 
 	@Override
