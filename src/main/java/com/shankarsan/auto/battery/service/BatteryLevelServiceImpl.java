@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.mongodb.client.FindIterable;
 import com.shankarsan.auto.battery.dao.BatteryLevelRepository;
-import com.shankarsan.auto.battery.dto.BatteryLevelResponseDTO;
+import com.shankarsan.auto.battery.dto.BatteryResponseDTO;
 import com.shankarsan.auto.battery.enums.ErrorMessageEnum;
 import com.shankarsan.auto.battery.exception.BusinessException;
 
@@ -17,39 +17,42 @@ public class BatteryLevelServiceImpl implements BatteryLevelService {
 	private BatteryLevelRepository batteryLevelRepository;
 
 	@Override
-	public BatteryLevelResponseDTO getBatteryLevel(String level_id, String passcode) throws BusinessException {
+	public BatteryResponseDTO getBatteryLevel(String levelId, String passcode) throws BusinessException {
 		// TODO Auto-generated method stub
-		BatteryLevelResponseDTO batteryLevelResponseDTO = null;
+		BatteryResponseDTO batteryResponseDTO = null;
 		FindIterable<Document> batteryIterable = null;
+		Document batteryDocument = null;
 		try {
-			batteryIterable = batteryLevelRepository.getBatteryLevel(level_id, passcode);
+			batteryIterable = batteryLevelRepository.getBatteryLevel(levelId, passcode);
 			if(null == batteryIterable || null == batteryIterable.first()) {
 				throw new BusinessException(ErrorMessageEnum.NO_DATA_RECEIVED.getErrorCode(), ErrorMessageEnum.NO_DATA_RECEIVED.getErrorMessage());
 			}
-			batteryLevelResponseDTO = new BatteryLevelResponseDTO();
-			batteryLevelResponseDTO.setLevel(batteryIterable.first().getInteger("level"));
+			batteryResponseDTO = new BatteryResponseDTO();
+			batteryDocument = batteryIterable.first();
+			batteryResponseDTO.setLevel(batteryDocument.getInteger("level", 0));
+			batteryResponseDTO.setStatus(batteryDocument.getInteger("status", 1));
 		}catch(BusinessException b) {
 			throw b;
 		}catch(Throwable t) {
 			throw new BusinessException(t);
 		}
-		return batteryLevelResponseDTO;
+		return batteryResponseDTO;
 	}
 
 	@Override
-	public BatteryLevelResponseDTO saveBatteryLevel(String level_id, String passcode, int level) throws BusinessException {
+	public BatteryResponseDTO saveBatteryLevel(String levelId, String passcode, int status, int level) throws BusinessException {
 		Document document = null;
-		BatteryLevelResponseDTO batteryLevelResponseDTO = null;
+		BatteryResponseDTO batteryResponseDTO = null;
 		if(level >=0 && level <= 100) {
-			document = batteryLevelRepository.saveBatteryLevel(level_id, passcode, level);
+			document = batteryLevelRepository.saveBatteryLevel(levelId, passcode, status, level);
 			if(null == document || !document.containsKey("level_id")) {
 				throw new BusinessException(ErrorMessageEnum.NO_DATA_RECEIVED.getErrorCode(), ErrorMessageEnum.NO_DATA_RECEIVED.getErrorMessage());
 			}
-			batteryLevelResponseDTO = new BatteryLevelResponseDTO();
+			batteryResponseDTO = new BatteryResponseDTO();
 		}else {
 			throw new BusinessException(ErrorMessageEnum.INVALID_INPUT.getErrorCode(), ErrorMessageEnum.INVALID_INPUT.getErrorMessage());
 		}
-		return batteryLevelResponseDTO;
+		return batteryResponseDTO;
 	}
 
 	

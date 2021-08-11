@@ -3,12 +3,27 @@ package com.shankarsan.auto.battery.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(value = JsonInclude.Include.NON_EMPTY)
-public class BatteryLevelResponseDTO extends BaseResponseDTO{
+public class BatteryResponseDTO extends BaseResponseDTO{
 	
 	private String id;
 	private int level;
 	private String level_id;
 	private String passcode;
+	private int status;
+
+	/**
+	 * @return the status
+	 */
+	public int getStatus() {
+		return status;
+	}
+
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(int status) {
+		this.status = status;
+	}
 
 	/**
 	 * @return the passcode

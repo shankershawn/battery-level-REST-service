@@ -8,7 +8,7 @@ import com.mongodb.client.FindIterable;
 @Repository
 public interface BatteryLevelRepository {
 	
-	FindIterable<Document> getBatteryLevel(String level_id, String passcode);
-	Document saveBatteryLevel(String level_id, String passcode, int level);
+	FindIterable<Document> getBatteryLevel(String levelId, String passcode);
+	Document saveBatteryLevel(String levelId, String passcode, int status, int level);
 
 }

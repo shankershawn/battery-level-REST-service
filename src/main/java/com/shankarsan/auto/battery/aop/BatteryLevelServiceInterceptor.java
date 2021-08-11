@@ -38,7 +38,7 @@ public class BatteryLevelServiceInterceptor {
 			baseResponseDTO.setErrorCode(b.getErrorCode());
 			baseResponseDTO.setErrorMessage(b.getErrorMessage());
 		}catch(Throwable t) {
-			_logger.error("Error encountered.", t.getMessage());
+			_logger.error("Error encountered - {}", t.getMessage());
 			baseResponseDTO.setErrorCode(ErrorMessageEnum.SERVICE_DOWN.getErrorCode());
 			baseResponseDTO.setErrorCode(ErrorMessageEnum.SERVICE_DOWN.getErrorMessage());
 		}
