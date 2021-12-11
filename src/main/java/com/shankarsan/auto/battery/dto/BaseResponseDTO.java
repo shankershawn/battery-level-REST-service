@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class BaseResponseDTO {
 	
+	@JsonProperty("status")
 	private String errorCode;
 	@JsonProperty("message")
 	private String errorMessage;
